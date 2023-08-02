@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  mysqldb:
+    image: mysql:8.0.34
+    container_name: mysql_container
+    # command: --default-authentification-plugin=mysql_native_password
+    # to use the new password authentication method in MySQL 8+ versions, which is required for using
+    restart: unless-stopped
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/0_init.sql
+      - C:/Users/Tanawat/Desktop/API/api test/db/volume_map:/var/lib/mysql
+    ports:
+      - "3300:3306"
+    expose:
+      - 3306
+    # expose container port (3306)for mapping with 3300
+    environment:
+      - MYSQL_DATABASE=MYDB_SENSORS
+      # - MYSQL_USER=admin
+      # - MYSQL_PASSWORD=P@ssw0rd
+      - MYSQL_ROOT_PASSWORD=P@ssw0rd
+      # - SERVICE_TAGS= dev
+      # - SERVICE_NAME= mysqldb
+    networks:
+      - internalnet
+    
+networks:
+  internalnet:
+    driver: bridge
+
+
